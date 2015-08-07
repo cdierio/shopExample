@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>Shop Homepage - Start Bootstrap Template</title>
+        <link href="style.css" rel="stylesheet" type="text/css"/>
+        <!-- Bootstrap Core CSS -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <script type="text/javascript" src="simpleCart.js"></script>
+              <!-- jQuery -->
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  
+        <script id="shopItem" type="text/html">
+        {{#items}}
+        <div class="col-sm-4 col-lg-4 col-md-4">
+        <div class="thumbnail simpleCart_shelfItem">
+                                
+            <img class="item_image" src="{{image}}" alt="">
+                <div class="caption">
+                    <h4 class="pull-right item_price">{{price}}</h4>
+                    <h4 class="item_name">{{produktName}}</h4>
+                    <p>{{description}}</p>
+                    <input class="item_quantity"  title="Item Quantity" id="masse" type="number" min="1" max="225" step="1" value="1">
+                    <input type="button" class="item_add" value="add to cart" /> 
+                </div>
+         </div>
+        </div>    
+        {{/items}}
+        </script>    
+        
+        <script type="text/javascript">
+
+            simpleCart({
+                currency: "EUR",
+                taxRate: 0.19,
+                cartStyle: "table",
+                cartColumns: [
+                    {view: function (item, column) {
+                            return"<img src='" + item.get('image') + "'>";
+                        },attr: 'image'},
+                    {attr: "name", label: "Name"},
+                    {attr: "quantity", label: "Menge"},
+                    {view: "remove", text: "Löschen", label: false}
+                ],
+                checkout: {
+                    type: "SendForm",
+                    url: "http://example.com/your/custom/checkout/url"
+                }
+
+            });
+        </script>
+
+        <script>
+            $(function (){
+               
+                $.getJSON('http://localhost:8383/Weinhandel/weine.json', function (data){
+                   
+                var template = $('#shopItem').html();
+                   
+                var info = Mustache.to_html(template, data);
+                   
+                $('#items').html(info);
+                });
+            });
+        </script>
+        
+    </head>
+
+    <body>
+
+
+        <!-- Navigation -->
+
+        <nav class="navbar navbar-inverse" role="navigation">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">Eckard Weine</a>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="#">About</a>
+                        </li>
+                        <li>
+                            <a href="#">Download</a>
+                        </li>
+                        <li>
+                            <a href="#">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+            </div>
+            <!-- /.container -->
+        </nav>
+
+        <!-- Page Content -->
+        <div class="container">
+
+            <div  class="row">
+
+                <div class="col-md-3">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">EinkaufsWagen</div>
+                        <div class="panel-body">
+
+                            <div class="simpleCart_items"></div>
+
+                        </div>
+                    </div>
+
+
+
+                    <div id="cartTotal">
+                        SubTotal: <span class="simpleCart_total"></span> <br>
+                        MehrwertSteuer : <span class="simpleCart_tax"> </span> <br>
+                        Final Total: <span class="simpleCart_grandTotal"></span> <br> 
+                        <a href="javascript:;" class="simpleCart_checkout">checkout</a> 
+                    </div>
+                </div>
+
+                <div class="col-md-9">
+                    <div id="items" class="row">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.container -->
+
+        <div class="container">
+            <hr>
+            <!-- Footer -->
+            <footer>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <p>Copyright &copy; Your Website 2014</p>
+                    </div>
+                </div>
+            </footer>
+        </div>
+        <!-- /.container -->
+
+        <!-- Bootstrap Core JavaScript -->
+        <script src="js/bootstrap.min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.0/mustache.min.js"></script>
+    </body>
+
+</html>
